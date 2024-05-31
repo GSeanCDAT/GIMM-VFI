@@ -1,3 +1,11 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video and Equations Example</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+
 <div align="center">
 
 <h1>GIMM-VFI: Generalizable Implicit Motion Modeling </p>for Video Frame Interpolation</h1>
@@ -25,3 +33,9 @@
         <img src="https://api.infinitescript.com/badgen/count?name=sczhou/GIMM-VFI&ltext=Visitors&color=3977dd">
     </h4>
 </div>
+
+<img src="assets/teaser.gif" width="100%"/>
+
+<strong>GIMM-VFI performs generalizable continuous motion modeling and interpolations between two adjacent video frames at arbitrary timesteps.</strong>
+
+:open_book: For more visual results of GIMM-VFI, go checkout our <a href="https://gseancdat.github.io/projects/GIMMVFI" target="_blank">project page</a>.
