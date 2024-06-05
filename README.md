@@ -1,6 +1,6 @@
 <div align="center">
 
-<h1>GIMM-VFI: Generalizable Implicit Motion Modeling </p>for Video Frame Interpolation</h1>
+<h1>Generalizable Implicit Motion Modeling </p>for Video Frame Interpolation</h1>
 
 <div>
     <a href='https://gseancdat.github.io/' target='_blank'>Zujin Guo</a>&emsp;
