@@ -16,7 +16,7 @@
         <a href="https://gseancdat.github.io/projects/GIMMVFI" target='_blank'>
         <img src="https://img.shields.io/badge/🐳-Project%20Page-blue">
         </a>
-         <a href="https://arxiv.org/" target='_blank'>
+         <a href="http://arxiv.org/abs/2407.08680" target='_blank'>
         <img src="https://img.shields.io/badge/arXiv-b31b1b.svg">
 <!--         </a> 
         <a href="https://https://www.youtube.com/" target='_blank'>
