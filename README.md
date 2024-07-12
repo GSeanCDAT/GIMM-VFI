@@ -17,7 +17,7 @@
         <img src="https://img.shields.io/badge/🐳-Project%20Page-blue">
         </a>
          <a href="http://arxiv.org/abs/2407.08680" target='_blank'>
-        <img src="https://img.shields.io/badge/arXiv-b31b1b.svg">
+        <img src="https://img.shields.io/badge/arXiv-2407.08680-b31b1b.svg">
 <!--         </a> 
         <a href="https://https://www.youtube.com/" target='_blank'>
         <img src="https://img.shields.io/badge/Demo%20Video-%23D11507.svg?logo=YouTube&logoColor=white"> -->
