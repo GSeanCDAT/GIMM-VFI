@@ -1,0 +1,61 @@
+trainer: stage_inr
+dataset:
+  type: fast_vimeo_flow
+  path: ./data/vimeo90k/vimeo_triplet
+  add_objects: false
+  expansion: false
+  random_t: false
+  aug: true
+  t_scale: 10
+  pair: false
+
+arch: # needs to add encoder, modulation type
+  type: gimm
+  ema: null
+
+  modulated_layer_idxs: [1]
+
+  coord_range: [-1., 1.]
+
+  hyponet:
+    type: mlp
+    n_layer: 5 # including the output layer
+    hidden_dim: [128] # list, assert len(hidden_dim) in [1, n_layers-1]
+    use_bias: true
+    input_dim: 3
+    output_dim: 2
+    output_bias: 0.5
+    activation:
+      type: siren
+      siren_w0: 1.0
+    initialization:
+      weight_init_type: siren
+      bias_init_type: siren
+
+loss:
+  type: mse #now unnecessary
+
+optimizer:
+  type: adam
+  init_lr: 0.0001
+  weight_decay: 0.0
+  betas: [0.9, 0.999] #[0.9, 0.95]
+  ft: false
+  warmup:
+    epoch: 0
+    multiplier: 1
+    buffer_epoch: 0
+    min_lr: 0.0001
+    mode: fix
+    start_from_zero: True
+  max_gn: null
+
+experiment:
+  amp: True
+  batch_size: 32
+  total_batch_size: 64
+  epochs: 400
+  save_ckpt_freq: 20
+  test_freq: 10
+  test_imlog_freq: 10
+
