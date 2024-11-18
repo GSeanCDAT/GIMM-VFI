@@ -386,6 +386,22 @@ class GIMMVFI_F(nn.Module):
     def warp_frame(self, frame, flow):
         return warp(frame, flow)
 
+    def compute_psnr(self, preds, targets, reduction="mean"):
+        assert reduction in ["mean", "sum", "none"]
+        batch_size = preds.shape[0]
+        sample_mses = torch.reshape((preds - targets) ** 2, (batch_size, -1)).mean(
+            dim=-1
+        )
+
+        if reduction == "mean":
+            psnr = (-10 * torch.log10(sample_mses)).mean()
+        elif reduction == "sum":
+            psnr = (-10 * torch.log10(sample_mses)).sum()
+        else:
+            psnr = -10 * torch.log10(sample_mses)
+
+        return psnr
+
     def sample_coord_input(
         self,
         batch_size,

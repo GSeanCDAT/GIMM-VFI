@@ -39,8 +39,9 @@
 
 </div>
 
-## Updates
-
+## News
+* **2024.11.18**: Train code is release! We have also resolved an issue with ```DS_SCALE```, which should be a float between 0 and 1 for high-resolution interpolation, such as for 2K and 4K frames.
+* **2024.11.08**: The ComfyUI version of GIMM-VFI is now available in the [ComfyUI-GIMM-VFI](https://github.com/kijai/ComfyUI-GIMM-VFI) repository, thanks to the dedicated efforts of @[kijai](https://github.com/kijai) :)
 * **2024.11.06**: Test codes and model checkpoints are publicly available now. A perceptually enhanced version of GIMM-VFI is also released along with this update. 
 
 ## Install
@@ -48,7 +49,7 @@
 * CUDA 11.6
 * CuPy
 ``` 
-# git ckone this repository
+# git clone this repository
 git clone https://github.com/GSeanCDAT/GIMM-VFI
 cd GIMM-VFI
 
@@ -74,7 +75,7 @@ Interpolation demos can be create through the following command:
 ```
 sh scripts/video_Nx.sh YOUR_PATH_TO_FRAME YOUR_OUTPUT_PATH DS_SCALE N_INTERP
 ```
-```DS_SCALE``` can be adjusted for high-resolution interpolations. The model variant by default is GIMM-VFI-R-P. You can change the model variant in  ```scripts/video_Nx.sh```. 
+The model variant by default is GIMM-VFI-R-P. You can change the model variant in  ```scripts/video_Nx.sh```. 
 
 Here is an example usage for 9X interpolation:
 ```
@@ -82,6 +83,19 @@ sh scripts/video_Nx.sh demo/input_frames demo/output 1 9
 ```
 The expected interpolation output:
 ![demo_output](./assets/demo_output.gif)
+
+```DS_SCALE``` is the downsampling scale factor ranging from 0 to 1. can be adjusted for high-resolution interpolations. For instance, you can perform 8X interpolation for 2K frames using following command: 
+```
+sh scripts/video_Nx.sh demo/2K_input_frames demo/2K_output 0.5 8
+```
+The expected interpolation output can be found [here](https://entuedu-my.sharepoint.com/:v:/g/personal/zujin_guo_staff_main_ntu_edu_sg/EXM6tolfX_NIolZ0N1bamRoBW4bJon2uAk9--cLNNDBlmQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=kqsMEF).
+
+In our practice, we tested GIMM-VFI on 2K and 4K frames for 8X interpolations on Nvidia V100 GPUs. Following is our settings and the corresponding memory usages:
+```
+[2K interpolation] DS_SCALE: 0.5 Memory-Usage: 7932MiB
+[4K interpolation] DS_SCALE: 0.25 Memory-Usage: 10922MiB
+```
+
 
 ## Dataset Preparation
 * Download the [Vimeo90K](https://github.com/anchen1011/toflow?tab=readme-ov-file), [SNU-FILM](https://myungsub.github.io/CAIN/) and [X4K1000FPS](https://www.dropbox.com/scl/fo/88aarlg0v72dm8kvvwppe/AHxNqDye4_VMfqACzZNy5rU?rlkey=a2hgw60sv5prq3uaep2metxcn&e=1&dl=0) datasets.
@@ -134,6 +148,24 @@ sh scripts/bm_X4K.sh
 The model variants can be changed inside the shell scripts.
 
 
+## Train
+Following is the general command for training:
+```
+sh scripts/train.sh YOUR_CONFIG OUTPUT_DIR PRETRAINED_CKPT NUM_GPU
+```
+Specifically, you can train GIMM and GIMM-VFI by following the instructions below.
+### GIMM
+```
+sh scripts/train.sh configs/gimm/gimm.yaml ./work_dirs '' 2
+```
+### GIMM-VFI-R
+```
+sh scripts/train.sh configs/gimmvfi/gimmvfi_r_arb.yaml pretrained_ckpt/gimm.pt 8
+```
+### GIMM-VFI-F
+```
+sh scripts/train.sh configs/gimmvfi/gimmvfi_f_arb.yaml pretrained_ckpt/gimm.pt 8
+```
 
 ## Citation
 If you find our work interesting or helpful, please leave a star or cite our paper. 

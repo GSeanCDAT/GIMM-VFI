@@ -17,6 +17,7 @@ from utils.setup import single_setup
 from utils.flow_viz import flow_to_image
 from tqdm import tqdm
 from PIL import Image
+import subprocess
 
 
 def default_parser():
@@ -27,7 +28,7 @@ def default_parser():
     parser.add_argument("--source-path", type=str, default="")
     parser.add_argument("--output-path", type=str, default="")
     parser.add_argument("--N", type=int, default=8)
-    parser.add_argument("--ds-factor", type=int, default=1)
+    parser.add_argument("--ds-factor", type=float, default=1.0)
     parser.add_argument("-r", "--result-path", type=str, default="./results.tmp")
     parser.add_argument("-l", "--load-path", type=str, default="")
     parser.add_argument("-p", "--postfix", type=str, default="")
@@ -51,13 +52,36 @@ def load_image(img_path):
 
 def images_to_video(imgs, output_video_path, fps=15):
     height, width, layers = imgs[0].shape
-    video = cv2.VideoWriter(
-        output_video_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height)
-    )
-    for img in imgs:
-        video.write(img)
-    cv2.destroyAllWindows()
-    video.release()
+    if max([height, width // 2]) > 2048:
+        frame_dir = os.path.join(os.path.dirname(output_video_path), "frames")
+        os.makedirs(frame_dir, exist_ok=True)
+
+        for idx, img in enumerate(imgs):
+            image_path = os.path.join(frame_dir, f"{idx:04d}.png")
+            cv2.imwrite(image_path, img)
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-framerate",
+                f"{fps}",
+                "-i",
+                f"{frame_dir}/%04d.png",
+                "-c:v",
+                "libx264",
+                "-pix_fmt",
+                "yuv420p",
+                f"{output_video_path}",
+            ]
+        )
+        subprocess.run(["rm", "-rf", f"{frame_dir}"])
+    else:
+        video = cv2.VideoWriter(
+            output_video_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height)
+        )
+        for img in imgs:
+            video.write(img)
+        cv2.destroyAllWindows()
+        video.release()
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ arch:
       bias_init_type: siren
 
 loss:
+  perceptual_loss: True
   subsample:
     type: random
     ratio: 0.1

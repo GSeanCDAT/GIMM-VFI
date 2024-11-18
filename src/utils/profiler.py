@@ -8,6 +8,7 @@
 # ginr-ipc: https://github.com/kakaobrain/ginr-ipc
 # --------------------------------------------------------
 
+
 class Profiler:
     opts_model_size = {"trainable-only", "transformer-block-only"}
 
