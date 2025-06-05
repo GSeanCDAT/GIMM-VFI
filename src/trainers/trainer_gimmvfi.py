@@ -278,6 +278,14 @@ class Trainer(TrainerTemplate):
                     loss_l1 = loss_l1 + 0.5 * self.l1(
                         all_outputs["other_pred"][0][i], targets[mid_id]
                     )
+                    if self.using_lpips:
+                        loss_lpips = (
+                            loss_lpips
+                            + 0.5
+                            * self.lpips(
+                                all_outputs["other_pred"][0][i], targets[mid_id], normalize=True
+                            ).mean()
+                        )
 
             loss_lap = (
                 loss_lap
@@ -290,9 +298,8 @@ class Trainer(TrainerTemplate):
             if self.using_lpips:
                 loss_lpips = (
                     loss_lpips
-                    + 0.5
-                    * self.lpips(
-                        all_outputs["other_pred"][0][i], targets[mid_id], normalize=True
+                    + self.lpips(
+                        all_outputs["imgt_pred"][0], targets[mid_id], normalize=True
                     ).mean()
                 )
 
